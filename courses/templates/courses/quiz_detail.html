@@ -1,0 +1,209 @@
+@"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ quiz.title }}</title>
+<style>
+  :root {
+    --ink: #1B2430;
+    --paper: #F6F3EC;
+    --line: #D8D2C4;
+    --accent: #2E5E4E;
+    --accent-light: #E4ECE8;
+    --accent-ink: #F6F3EC;
+    --muted: #5B5648;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--paper);
+    font-family: "Georgia", "Times New Roman", serif;
+    color: var(--ink);
+    padding: 40px 20px;
+  }
+  .wrap {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .header-card {
+    padding: 32px 40px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #FFFFFF;
+    margin-bottom: 20px;
+  }
+  .eyebrow {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+  h1 {
+    font-size: 26px;
+    margin: 0;
+    font-weight: 400;
+  }
+  .progress-text {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    margin: 10px 0 0;
+  }
+
+  .question-card {
+    padding: 28px 32px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #FFFFFF;
+    margin-bottom: 16px;
+  }
+  .q-number {
+    display: inline-block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .q-text {
+    font-size: 18px;
+    margin: 0 0 18px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .choice {
+    display: block;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .choice:last-child { margin-bottom: 0; }
+  .choice input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .choice-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    background: #FCFBF8;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .choice-label:hover {
+    border-color: var(--accent);
+  }
+  .choice input[type="radio"]:checked + .choice-label {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+  .choice-marker {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line);
+    flex-shrink: 0;
+    position: relative;
+  }
+  .choice input[type="radio"]:checked + .choice-label .choice-marker {
+    border-color: var(--accent);
+  }
+  .choice input[type="radio"]:checked + .choice-label .choice-marker::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .submit-row {
+    padding: 24px 0 0;
+    text-align: center;
+  }
+  button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 3px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+  }
+  button:hover { background: #24493D; }
+
+  .no-questions {
+    text-align: center;
+    padding: 40px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--muted);
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="header-card">
+      <p class="eyebrow">Quiz</p>
+      <h1>{{ quiz.title }}</h1>
+      <p class="progress-text">{{ questions|length }} question{{ questions|length|pluralize }}</p>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+
+      {% for question in questions %}
+        <div class="question-card">
+          <span class="q-number">Question {{ forloop.counter }}</span>
+          <p class="q-text">{{ question.text }}</p>
+
+          {% for choice in question.choices.all %}
+            <label class="choice">
+              <input type="radio" name="{{ question.id }}" value="{{ choice.id }}">
+              <span class="choice-label">
+                <span class="choice-marker"></span>
+                {{ choice.text }}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
+      {% empty %}
+        <div class="question-card">
+          <p class="no-questions">This quiz doesn't have any questions yet.</p>
+        </div>
+      {% endfor %}
+
+      {% if questions %}
+        <div class="submit-row">
+          <button type="submit">Submit Quiz</button>
+        </div>
+      {% endif %}
+    </form>
+
+  </div>
+</body>
+</html>
+"@ | Set-Content courses\templates\quiz.html

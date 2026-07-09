@@ -1,0 +1,152 @@
+@"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+<style>
+  :root {
+    --ink: #1B2430;
+    --paper: #F6F3EC;
+    --line: #D8D2C4;
+    --accent: #2E5E4E;
+    --accent-ink: #F6F3EC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper);
+    font-family: "Georgia", "Times New Roman", serif;
+    color: var(--ink);
+    padding: 20px;
+  }
+  .card {
+    width: 100%;
+    max-width: 380px;
+    padding: 40px 36px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #FFFFFF;
+  }
+  .eyebrow {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+  h1 {
+    font-size: 26px;
+    margin: 0 0 28px;
+    font-weight: 400;
+  }
+  label {
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    color: #5B5648;
+    margin: 0 0 6px;
+  }
+  .field { margin-bottom: 18px; }
+  .field input {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    background: #FCFBF8;
+    color: var(--ink);
+  }
+  .field input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .helptext {
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    color: #8A8474;
+    margin-top: 5px;
+  }
+  .errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    color: #B3261E;
+  }
+  .errorlist.top {
+    margin: 0 0 16px;
+    font-size: 13px;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 3px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  button:hover { background: #24493D; }
+  .foot {
+    margin-top: 22px;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    color: #5B5648;
+  }
+  .foot a { color: var(--accent); text-decoration: none; }
+  .foot a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <p class="eyebrow">Coursework</p>
+    <h1>Create an account</h1>
+
+    {% if form.non_field_errors %}
+      <ul class="errorlist top">
+        {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <span class="helptext">{{ field.help_text }}</span>
+          {% endif %}
+          {% if field.errors %}
+            <ul class="errorlist">
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit">Register</button>
+    </form>
+
+    <p class="foot">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+  </div>
+</body>
+</html>
+"@ | Set-Content courses\templates\registration\register.html

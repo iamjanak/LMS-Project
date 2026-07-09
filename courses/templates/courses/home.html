@@ -1,0 +1,290 @@
+@"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home</title>
+<style>
+  :root {
+    --ink: #1B2430;
+    --paper: #F6F3EC;
+    --line: #D8D2C4;
+    --accent: #2E5E4E;
+    --accent-light: #E4ECE8;
+    --accent-ink: #F6F3EC;
+    --muted: #5B5648;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--paper);
+    font-family: "Georgia", "Times New Roman", serif;
+    color: var(--ink);
+  }
+
+  /* Top bar */
+  .topbar {
+    background: #FFFFFF;
+    border-bottom: 1px solid var(--line);
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+  }
+  .topbar-right span {
+    color: var(--muted);
+  }
+  .topbar-right a {
+    color: var(--accent-ink);
+    background: var(--accent);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 3px;
+  }
+  .topbar-right a:hover { background: #24493D; }
+
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  /* Welcome banner */
+  .banner {
+    padding: 40px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #FFFFFF;
+    margin-bottom: 28px;
+  }
+  .eyebrow {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-size: 30px;
+    margin: 0 0 10px;
+    font-weight: 400;
+  }
+  .subtext {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* Stats row */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .stat {
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 20px 22px;
+  }
+  .stat-value {
+    font-size: 28px;
+    color: var(--accent);
+    margin: 0 0 4px;
+  }
+  .stat-label {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* Course section */
+  .section-card {
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 32px 36px;
+  }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 0 0 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  h2 {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0;
+  }
+  .count-pill {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .course-grid {
+    display: grid;
+    gap: 14px;
+  }
+  .course-card {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    transition: border-color 0.15s ease;
+  }
+  .course-card:hover {
+    border-color: var(--accent);
+  }
+  .course-info { flex: 1; }
+  .course-title {
+    display: block;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+  .course-desc {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .course-tag {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 5px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .empty-state p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 4px;
+  }
+  .empty-state .big {
+    font-size: 15px;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  footer {
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 30px;
+  }
+
+  @media (max-width: 600px) {
+    .stats { grid-template-columns: 1fr; }
+    .course-card { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <span class="brand">Coursework</span>
+    <div class="topbar-right">
+      <span>{{ user.username }}</span>
+      <a href="{% url 'logout' %}">Logout</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="banner">
+      <p class="eyebrow">Dashboard</p>
+      <h1>Welcome, {{ user.username }}!</h1>
+      <p class="subtext">Here's a look at your courses and progress.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <p class="stat-value">{{ courses|length }}</p>
+        <p class="stat-label">Enrolled Courses</p>
+      </div>
+      <div class="stat">
+        <p class="stat-value">{{ user.email|default:"—" }}</p>
+        <p class="stat-label">Account Email</p>
+      </div>
+      <div class="stat">
+        <p class="stat-value">Active</p>
+        <p class="stat-label">Account Status</p>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-head">
+        <h2>Courses</h2>
+        <span class="count-pill">{{ courses|length }} total</span>
+      </div>
+
+      <div class="course-grid">
+        {% for course in courses %}
+          <div class="course-card">
+            <div class="course-info">
+              <span class="course-title">{{ course.title }}</span>
+              <span class="course-desc">{{ course.description }}</span>
+            </div>
+            <span class="course-tag">Enrolled</span>
+          </div>
+        {% empty %}
+          <div class="empty-state">
+            <p class="big">No courses yet</p>
+            <p>Once you enroll in a course, it will show up here.</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; {% now "Y" %} Coursework. All rights reserved.
+  </footer>
+
+</body>
+</html>
